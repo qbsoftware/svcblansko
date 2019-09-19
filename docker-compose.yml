@@ -1,0 +1,58 @@
+version: '3.4'
+services:
+
+  leprikon:
+    image: leprikon/leprikon
+    depends_on:
+      - memcached
+      - mysql
+      - smtp
+    environment:
+      DATABASE_ENGINE: django.db.backends.mysql
+      DATABASE_HOST: ''
+      DATABASE_NAME: ddmblansko
+      DATABASE_PASSWORD: dbpassword
+      DATABASE_USER: ddmblansko
+      EMAIL_HOST: smtp
+      EMAIL_HOST_PASSWORD: emailpassword
+      EMAIL_HOST_USER: ddmblansko
+      EMAIL_SUBJECT_PREFIX: '[DDM Blansko]'
+      MEMCACHED_LOCATION: memcached:11211
+      SECRET_KEY: secretkey
+      SERVER_EMAIL: '"DDM Blansko" <leprikon@ddmblansko.leprikon.cz>'
+      SUPERVISORD_RUN: nginx uwsgi
+    ports:
+      - 127.0.0.1:10020:80
+    volumes:
+      - ./.ipython:/root/.ipython
+      - ./data:/app/data
+      - ./media:/app/htdocs/media
+      - mysql:/var/run/mysqld
+
+  memcached:
+    image: memcached
+
+  mysql:
+    image: mariadb
+    environment:
+      MYSQL_DATABASE: ddmblansko
+      MYSQL_PASSWORD: dbpassword
+      MYSQL_ROOT_PASSWORD: rootdbpassword
+      MYSQL_USER: ddmblansko
+    volumes:
+      - mysql:/var/run/mysqld
+      - ./mysql:/var/lib/mysql
+
+  smtp:
+    image: catatnight/postfix
+    environment:
+      maildomain: ddmblansko.leprikon.cz
+      smtp_user: ddmblansko:emailpassword
+    hostname: hosting.misli.cz
+    stdin_open: true
+    volumes:
+    - ./dkim:/etc/opendkim/domainkeys
+    tty: true
+
+volumes:
+  mysql:
