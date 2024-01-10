@@ -1,1 +1,1 @@
-letsencrypt certonly --webroot -w /srv/letsencrypt/htdocs -d ddmblansko.leprikon.cz
+letsencrypt certonly --webroot -w /srv/letsencrypt/htdocs -d svcblansko.leprikon.cz
