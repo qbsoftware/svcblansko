@@ -17,8 +17,8 @@ x-leprikon: &leprikon
     LEPRIKON_SHOW_SUBJECT_CODE: 'yes'
     CACHE_LOCATION: unix:///var/run/redis/redis.sock
     SECRET_KEY: secretkey
-    SENTRY_ENVIRONMENT: 'ddmblansko'
-    SERVER_EMAIL: '"DDM Blansko" <ddmblansko@leprikon.cz>'
+    SENTRY_ENVIRONMENT: 'svcblansko'
+    SERVER_EMAIL: '"SVČ Blansko" <svcblansko@leprikon.cz>'
     SUPERVISORD_RUN: "gunicorn cron"
   volumes:
     - ./data:/app/data
@@ -62,7 +62,7 @@ services:
       SERVER_HOSTNAME: leprikon.cz
       SMTP_SERVER: smtp.savana.cz
       SMTP_PORT: 465
-      SMTP_USERNAME: ddmblansko@leprikon.cz
+      SMTP_USERNAME: svcblansko@leprikon.cz
       SMTP_PASSWORD: emailpassword
 
 volumes:
